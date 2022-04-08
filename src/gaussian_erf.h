@@ -21,7 +21,7 @@ static inline void BINARY_ATOM_FN(atom_spec_t* atom_spec){
             return;
         }
     }
-    atom_spec->tensor[strides[1]*center[3]+strides[2]*center[2]+strides[3]*center[1]] += 1;
+    atom_spec->tensor[strides[1]*center[2]+strides[2]*center[1]+strides[3]*center[0]] += 1;
 }
 
 static inline void GAUSS_ATOM_FN(atom_spec_t* atom_spec){

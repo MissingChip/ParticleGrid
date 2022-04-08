@@ -4,7 +4,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 
-#include "tensor_handling.hpp"
 #include "cgridgen.h"
 #include "generate.h"
 
@@ -105,17 +104,6 @@ py::array_t<float> coord_to_grid(npcarray points,
     return create_point_grid_c(points, grid_size, grid_size, grid_size, num_channels, (float*)ext, variance, nullptr);
 }
 
-void display_tensor_py(npcarray tensor, int show_max = 10){
-    /* displays a tensor in ascii for debugging */
-    int W = tensor.shape(3);
-    int H = tensor.shape(2);
-    int D = tensor.shape(1);
-    float* ptr = (float*)tensor.request().ptr;
-    ssize_t size = tensor.size();
-    printf("Tensor %p Total size: %ld\n", ptr, size);
-    display_tensor_xy(W, H, D, ptr, 4);
-}
-
 PYBIND11_MODULE(GridGenerator, m) {
     m.doc() = "Generate grids from point clouds";
     m.def("molecule_grid", &molecule_grid,
@@ -135,9 +123,6 @@ PYBIND11_MODULE(GridGenerator, m) {
           py::arg("points"),
           py::arg("width"), py::arg("height"), py::arg("depth"),
           py::arg("grid_size"), py::arg("num_channels"),py::arg("variance") = 0.04);
-    m.def("display_tensor", &display_tensor_py, 
-            "Display the tensor in an ascii graph depiction", 
-            py::arg("tensor"), py::arg("count") = 10);
     #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
     #else

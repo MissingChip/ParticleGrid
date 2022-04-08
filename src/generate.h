@@ -42,7 +42,7 @@ struct atom_spec_t {
 };
 
 static inline size_t tensor_size(OutputSpec* o){
-    return o->strides[4]*o->shape[4];
+    return o->strides[3]*o->shape[3];
 }
 
 #ifdef V8F
